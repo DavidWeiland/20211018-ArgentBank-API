@@ -295,19 +295,16 @@ definitions:
             - subtraction
   AddTransaction:
     type: object
-    required:
-    - "userId"
-    - "amount"
-    - "account"
-    - "direction"
     properties:
       body:
         type: object
         properties:
           userId:
             type: string
+            required: true
           account:
             type: string
+            required: true
             enum:
             - Checking
             - Savings
@@ -319,9 +316,11 @@ definitions:
             type: string
           amount:
             type: integer
+            required: true
             description: number in cents
           direction:
             type: string
+            required: true
             description: more or less
             enum: 
             - addition
