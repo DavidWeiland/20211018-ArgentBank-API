@@ -110,6 +110,95 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
+  /transaction:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User's allTransactions API
+      description: API for fetching all transactions
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transactions retrieved successully
+          schema:
+            $ref: '#/definitions/TransactionResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+  /transaction/newTransaction:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: New User's transaction
+      description: for adding a new user's transaction
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: adding a new transaction
+          required: true
+          schema:
+            $ref: '#/definitions/AddTransaction'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transactions retrieved successully
+          schema:
+            $ref: '#/definitions/TransactionResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+  /transaction/{transactionId}:
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User transaction API
+      description: API for updating a user transaction
+      parameters:
+        - in: path
+          name: transactionId
+          description: ID of transaction
+          required: true
+          type: string
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: Update one transaction attributes
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateTransaction'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction retrieved successully
+          schema:
+            $ref: '#/definitions/TransactionResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
 securityDefinitions:
   Bearer:
     type: apiKey
@@ -152,6 +241,12 @@ definitions:
             type: string
           email:
             type: string
+          password:
+            type: string
+          firstName:
+            type: string
+          lastName:
+            type: string
   LoginResponse:
     type: object
     properties:
@@ -164,3 +259,93 @@ definitions:
         type: string
       lastName:
         type: string
+  TransactionResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: object
+        properties:
+          id:
+            type: string
+          userId:
+            type: string
+          account:
+            type: string
+            enum:
+            - Checking
+            - Savings
+            - Credit Card
+          date:
+            type: string
+            format : date-time
+          entitled:
+            type: string
+          amount:
+            type: integer
+            description: number in cents
+          direction:
+            type: string
+            description: more or less
+            enum: 
+            - addition
+            - subtraction
+  AddTransaction:
+    type: object
+    required:
+    - "userId"
+    - "amount"
+    - "account"
+    - "direction"
+    properties:
+      body:
+        type: object
+        properties:
+          userId:
+            type: string
+          account:
+            type: string
+            enum:
+            - Checking
+            - Savings
+            - Credit Card
+          date:
+            type: string
+            format : date-time
+          entitled:
+            type: string
+          amount:
+            type: integer
+            description: number in cents
+          direction:
+            type: string
+            description: more or less
+            enum: 
+            - addition
+            - subtraction
+  UpdateTransaction:
+    type: object
+    properties:
+      body:
+        type: object
+        properties:
+          account:
+            type: string
+            enum:
+            - Checking
+            - Savings
+            - Credit Card
+          entitled:
+            type: string
+          amount:
+            type: integer
+            description: number in cents
+          direction:
+            type: string
+            description: more or less
+            enum: 
+            - addition
+            - subtraction
