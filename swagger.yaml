@@ -8,6 +8,11 @@ host: localhost:3001
 basePath: /api/v1
 schemes:
   - http
+tags:
+- name: User Module
+  description: "Operations about user"
+- name: Transactions
+  description: "Operations about transactions"
 paths:
   /user/login:
     post:
@@ -115,7 +120,7 @@ paths:
       security:
         - Bearer: []
       tags:
-        - User Module
+        - Transactions
       summary: User's allTransactions API
       description: API for fetching all transactions
       parameters:
@@ -139,7 +144,7 @@ paths:
       security:
         - Bearer: []
       tags:
-        - User Module
+        - Transactions
       summary: New User's transaction
       description: for adding a new user's transaction
       parameters:
@@ -169,7 +174,7 @@ paths:
       security:
         - Bearer: []
       tags:
-        - User Module
+        - Transactions
       summary: User transaction API
       description: API for updating a user transaction
       parameters:
